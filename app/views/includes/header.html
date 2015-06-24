@@ -16,6 +16,9 @@
           <li class="{% if (isActive('/users/' + req.user.id )) %}active{% endif %}">
             <a href="{{ '/users/' + req.user.id }}" title="Profile">Profile</a>
           </li>
+        <li class="{% if (isActive('/projects/index')) %}active{% endif %}">
+          <a href="/projects/index" title="Projects">Projects</a>
+        </li>
         <li class="{% if (isActive('/projects/new')) %}active{% endif %}">
           <a href="/projects/new" title="New Project">New Project</a>
         </li>
@@ -27,9 +30,11 @@
             <a href="/login" title="Login">Login</a>
           </li>
         {% endif %}
+          
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
+          
       </ul>
     </div>
   </div>

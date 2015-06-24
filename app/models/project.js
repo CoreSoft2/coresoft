@@ -64,11 +64,12 @@ ProjectSchema.pre('remove', function (next) {
   var imager = new Imager(imagerConfig, 'S3');
   var files = this.image.files;
 
-  // if there are files associated with the item, remove from the cloud too
-  imager.remove(files, function (err) {
-    if (err) return next(err);
-  }, 'Project');
-
+  if (files){
+   // if there are files associated with the item, remove from the cloud too
+   imager.remove(files, function (err) {
+     if (err) return next(err);
+   }, 'Project');
+  }
   next();
 });
 
@@ -121,7 +122,7 @@ ProjectSchema.methods = {
       user: user._id
     });
 
-    if (!this.user.email) this.user.email = 'email@product.com';
+    if (!this.user.email) this.user.email = 'info@pivotsecurity.com';
     notify.comment({
       Project: this,
       currentUser: user,

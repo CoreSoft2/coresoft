@@ -38,20 +38,20 @@ module.exports = {
 
   comment: function (options, cb) {
     var project = options.project;
-    var author = project.user;
+    var author = options.currentUser;
     var user = options.currentUser;
     var notifier = new Notifier(config.notifier);
 
     var obj = {
       to: author.email,
-      from: 'your@product.com',
-      subject: user.name + ' added a comment on your project ' + project.title,
-      alert: user.name + ' says: "' + options.comment,
+      from: 'info@pivotsecurity.com',
+      subject: user.name,
+      alert: user.name + ' added: "' + options.comment,
       locals: {
         to: author.name,
         from: user.name,
         body: options.comment,
-        project: project.name
+        project: project
       }
     };
 

@@ -89,7 +89,7 @@ module.exports = function (app, passport) {
 
   // project routes
   app.param('id', projects.load);
-  app.get('/projects', projects.index);
+  app.get('/projects/index', projects.index);
   app.get('/projects/new', auth.requiresLogin, projects.new);
   app.post('/projects', auth.requiresLogin, projects.create);
   app.get('/projects/:id', projects.show);
