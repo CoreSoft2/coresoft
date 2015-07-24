@@ -2,7 +2,6 @@
 /**
  * Module dependencies.
  */
-
 var mongoose = require('mongoose');
 var Imager = require('imager');
 var config = require('config');
@@ -15,7 +14,6 @@ var Schema = mongoose.Schema;
 /**
  * Getters
  */
-
 var getTags = function (tags) {
   return tags.join(',');
 };
@@ -23,7 +21,6 @@ var getTags = function (tags) {
 /**
  * Setters
  */
-
 var setTags = function (tags) {
   return tags.split(',');
 };
@@ -31,7 +28,6 @@ var setTags = function (tags) {
 /**
  * Project Schema
  */
-
 var ProjectSchema = new Schema({
   title: {type : String, default : '', trim : true},
   body: {type : String, default : '', trim : true},
@@ -52,14 +48,12 @@ var ProjectSchema = new Schema({
 /**
  * Validations
  */
-
 ProjectSchema.path('title').required(true, 'Project title cannot be blank');
 ProjectSchema.path('body').required(true, 'Project body cannot be blank');
 
 /**
  * Pre-remove hook
  */
-
 ProjectSchema.pre('remove', function (next) {
   var imager = new Imager(imagerConfig, 'S3');
   var files = this.image.files;
@@ -76,7 +70,6 @@ ProjectSchema.pre('remove', function (next) {
 /**
  * Methods
  */
-
 ProjectSchema.methods = {
 
   /**
@@ -86,7 +79,6 @@ ProjectSchema.methods = {
    * @param {Function} cb
    * @api private
    */
-
   uploadAndSave: function (images, cb) {
     if (!images || !images.length) return this.save(cb)
 
@@ -113,7 +105,6 @@ ProjectSchema.methods = {
    * @param {Function} cb
    * @api private
    */
-
   addComment: function (user, comment, cb) {
     var notify = require('../mailer');
 
@@ -139,7 +130,6 @@ ProjectSchema.methods = {
    * @param {Function} cb
    * @api private
    */
-
   removeComment: function (commentId, cb) {
     var index = utils.indexof(this.comments, { id: commentId });
     if (~index) this.comments.splice(index, 1);
@@ -151,7 +141,6 @@ ProjectSchema.methods = {
 /**
  * Statics
  */
-
 ProjectSchema.statics = {
 
   /**
@@ -161,7 +150,6 @@ ProjectSchema.statics = {
    * @param {Function} cb
    * @api private
    */
-
   load: function (id, cb) {
     this.findOne({ _id : id })
       .populate('user', 'name email username')
@@ -176,7 +164,6 @@ ProjectSchema.statics = {
    * @param {Function} cb
    * @api private
    */
-
   list: function (options, cb) {
     var criteria = options.criteria || {}
 

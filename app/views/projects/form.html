@@ -14,18 +14,55 @@
 
   <div class="row">
     <div class="col-md-8">
-      <form method="post" action="{{ action }}" enctype="multipart/form-data" role="form" class="form-horizontal">
+        
+      <form id="project-setup-form" method="post" action="{{ action }}" enctype="multipart/form-data" role="form">
 
+          <div id="wizard" class="swMain">
+  			<ul>
+  				<li><a href="#step-1">
+                <span class="stepNumber">1</span>
+                <span class="stepDesc">
+                   Step 1<br />
+                   <small>Step 1 description</small>
+                </span>
+            </a></li>
+  				<li><a href="#step-2">
+                <span class="stepNumber">2</span>
+                <span class="stepDesc">
+                   Step 2<br />
+                   <small>Step 2 description</small>
+                </span>
+            </a></li>
+  				<li><a href="#step-3">
+                <span class="stepNumber">3</span>
+                <span class="stepDesc">
+                   Step 3<br />
+                   <small>Step 3 description</small>
+                </span>                   
+             </a></li>
+  				<li><a href="#step-4">
+                <span class="stepNumber">4</span>
+                <span class="stepDesc">
+                   Step 4<br />
+                   <small>Step 4 description</small>
+                </span>                   
+            </a></li>
+  			</ul>
+  			<div id="step-1">
+                
         <input type="hidden" name="_csrf" value="{{ csrf_token }}">
-
         {% if not project.isNew %}
           <input type="hidden" name="_method" value="PUT">
         {% endif %}
 
-        <div class="form-group">
+          <h3>Step -1 Project Set-up</h3>
+        <fieldset>
+            <legend>Project Setup</legend>
+     
+          <div class="form-group">
           <label for="title" class="col-sm-2 control-label">Title</label>
           <div class="col-sm-10">
-            <input type="text" name="title" value="{{ project.title }}" placeholder="Enter the title" class="form-control" id="title">
+            <input type="text" name="title" value="{{ project.title }}" placeholder="Enter the title" class="form-control required" id="title">
           </div>
         </div>
 
@@ -37,7 +74,7 @@
         </div>
 
         <div class="form-group">
-          <label for="desc" class="col-sm-2 control-label">Body</label>
+          <label for="desc" class="col-sm-2 control-label">Description</label>
           <div class="col-sm-10">
             <textarea rows="5" name="body" placeholder="Enter the project description" id="desc" cols="30" rows="10" class="form-control">{{ project.body }}</textarea>
           </div>
@@ -49,15 +86,49 @@
             <input type="text" name="tags" value="{{ project.tags }}" placeholder="Enter the tags" class="form-control" id="tags">
           </div>
         </div>
-
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-primary" type="submit">Save</button>
-            &nbsp;
-            <a href="/projects" class="btn btn-link">Cancel</a>
-          </div>
+            <p>(*) Mandatory</p>
+        </fieldset>
+     
         </div>
-      </form>
+  	    <div id="step-2">  
+        <h3>Set 2 - IOT Setup</h3>
+        <fieldset>
+            <legend>IOT Device and Envrionemnt Information</legend>
+     
+            <label for="name-2">First name *</label>
+            <input id="name-2" name="name" type="text" class="required">
+            <label for="surname-2">Last name *</label>
+            <input id="surname-2" name="surname" type="text" class="required">
+            <label for="email-2">Email *</label>
+            <input id="email-2" name="email" type="text" class="required email">
+            <label for="address-2">Address</label>
+            <input id="address-2" name="address" type="text">
+            <label for="age-2">Age (The warning step will show up if age is less than 18) *</label>
+            <input id="age-2" name="age" type="text" class="required number">
+            <p>(*) Mandatory</p>
+        </fieldset>
+     
+        </div>
+  	    <div id="step-3">  
+        <h3>Step 3 - Service Set-up</h3>
+        <fieldset>
+            <legend>Service Set-up</legend>
+     
+            <p>....</p>
+        </fieldset>
+     </div>
+  	    <div id="step-4">  
+        <h3>Web, Mobile and API set-u</h3>
+        <fieldset>
+            <legend>API...</legend>
+        </fieldset>
+        </div>
+
+    </div>
+    </form>
+
+
+          
     </div>
     <div class="col-md-4">
       {% if (!project.isNew && project.image && project.image.files && project.image.files.length) %}
@@ -65,4 +136,19 @@
       {% endif %}
     </div>
   </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+    	// Smart Wizard 	
+  		$('#wizard').smartWizard();
+      
+      function onFinishCallback(){
+        $('#wizard').smartWizard('showMessage','Finish Clicked');
+      }     
+		});
+
+
+</script>
+
 {% endblock %}
