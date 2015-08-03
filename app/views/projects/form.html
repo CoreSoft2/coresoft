@@ -67,13 +67,6 @@
         </div>
 
         <div class="form-group">
-          <label for="file" class="col-sm-2 control-label">Image</label>
-          <div class="col-sm-10">
-            <input type="file" name="image" class="form-control" id="file">
-          </div>
-        </div>
-
-        <div class="form-group">
           <label for="desc" class="col-sm-2 control-label">Description</label>
           <div class="col-sm-10">
             <textarea rows="5" name="body" placeholder="Enter the project description" id="desc" cols="30" rows="10" class="form-control">{{ project.body }}</textarea>
@@ -95,16 +88,46 @@
         <fieldset>
             <legend>IOT Device and Envrionemnt Information</legend>
      
-            <label for="name-2">First name *</label>
-            <input id="name-2" name="name" type="text" class="required">
-            <label for="surname-2">Last name *</label>
-            <input id="surname-2" name="surname" type="text" class="required">
-            <label for="email-2">Email *</label>
-            <input id="email-2" name="email" type="text" class="required email">
-            <label for="address-2">Address</label>
-            <input id="address-2" name="address" type="text">
-            <label for="age-2">Age (The warning step will show up if age is less than 18) *</label>
-            <input id="age-2" name="age" type="text" class="required number">
+        <div class="form-group">
+          <label for="file" class="col-sm-2 control-label">IOT Image</label>
+          <div class="col-sm-10">
+            <input type="file" name="image" class="form-control" id="file">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="tags" class="col-sm-2 control-label">IP Config</label>
+          <div class="col-sm-10">
+             <label for="iotiptype" class="col-sm-2 control-label">Static
+            <input type="radio" name="iotiptype" value="static" placeholder="Static IP" class="form-control" id="iotiptype"></label>
+              <label for="iotiptype" class="col-sm-2 control-label">Dyanmic
+            <input type="radio" name="iotiptype" value="dynamic" placeholder="Dynamic IP" class="form-control" id="iotiptype"></label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ipaddress" class="col-sm-2 control-label">IP Address</label>
+          <div class="col-sm-10">
+            <input type="text" name="ipaddress" value="{{ project.ipaddress }}" placeholder="Enter the IP address" class="form-control" id="ipaddress">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ipgateway" class="col-sm-2 control-label">Gateway</label>
+          <div class="col-sm-10">
+            <input type="text" name="ipgateway" value="{{ project.ipgateway }}" placeholder="Enter the gateway" class="form-control" id="ipgateway">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="wifissid" class="col-sm-2 control-label">WIFI SSID</label>
+          <div class="col-sm-10">
+            <input type="text" name="wifissid" value="{{ project.wifissid }}" placeholder="Enter the wifi ssid" class="form-control" id="wifissid">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="wifikey" class="col-sm-2 control-label">WIFI Passkey</label>
+          <div class="col-sm-10">
+            <input type="text" name="wifikey" value="{{ project.wifikey }}" placeholder="Enter the wifi key" class="form-control" id="wifikey">
+          </div>
+        </div>
+
             <p>(*) Mandatory</p>
         </fieldset>
      
@@ -113,26 +136,58 @@
         <h3>Step 3 - Service Set-up</h3>
         <fieldset>
             <legend>Service Set-up</legend>
-     
-            <p>....</p>
+        <div class="form-group">
+          <label for="inputdata" class="col-sm-2 control-label">Data Config</label>
+          <div class="col-sm-10">
+             <label for="inputdata" class="col-sm-2 control-label">JSON
+            <input type="radio" name="inputdata" value="JSON" placeholder="JSON data" class="form-control" id="inputdata1"></label>
+              <label for="inputdata" class="col-sm-2 control-label">PlainText
+            <input type="radio" name="inputdata" value="Plain Text" placeholder="Plain Text data" class="form-control" id="inputdata2"></label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sampledata" class="col-sm-2 control-label">Sample Data (optional)</label>
+          <div class="col-sm-10">
+            <textarea rows="5" name="sampledata" placeholder="Enter the sample data string" id="sampledata" cols="30" rows="10" class="form-control">{{ project.sampledata }}</textarea>
+          </div>
+        </div>
+
+            
+            <p>(*) Mandatory</p>
         </fieldset>
      </div>
   	    <div id="step-4">  
-        <h3>Web, Mobile and API set-u</h3>
+        <h3>Web, Mobile and API set-up</h3>
         <fieldset>
             <legend>API...</legend>
+        <div class="form-group">
+          <label for="apikey" class="col-sm-2 control-label">API Key</label>
+          <div class="col-sm-10">
+            <input type="text" readonly name="apikey" value="{{ project.apikey }}" placeholder="The api key" class="form-control" id="apikey">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="apisecret" class="col-sm-2 control-label">WIFI Passkey</label>
+          <div class="col-sm-10">
+            <input type="text" readonly name="apisecret" value="{{ project.apisecret }}" placeholder="The api secret" class="form-control" id="apisecret">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="vendorid" class="col-sm-2 control-label">Vendor ID</label>
+          <div class="col-sm-10">
+            <input type="text" readonly name="vendorid" value="{{ project.vendorid }}" placeholder="The Vendor ID" class="form-control" id="vendorid">
+          </div>
+        </div>
         </fieldset>
         </div>
 
     </div>
     </form>
-
-
           
     </div>
     <div class="col-md-4">
       {% if (!project.isNew && project.image && project.image.files && project.image.files.length) %}
-        <img src="{{ project.image.cdnUri + '/mini_' + project.image.files[0] }}" alt="">
+        <!-- IOt image exists -->
       {% endif %}
     </div>
   </div>
