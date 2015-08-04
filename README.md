@@ -1,4 +1,4 @@
-## Requirements
+# Requirements
 * [NodeJs](http://nodejs.org)
 * [mongodb](http://mongodb.org)
 * [imagemagick](http://www.imagemagick.org/script/index.php)
