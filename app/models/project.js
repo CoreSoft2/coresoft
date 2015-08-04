@@ -138,7 +138,7 @@ ProjectSchema.methods = {
   }
 }
 
-/**
+/** 
  * Statics
  */
 ProjectSchema.statics = {
