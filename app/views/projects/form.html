@@ -98,9 +98,9 @@
           <label for="tags" class="col-sm-2 control-label">IP Config</label>
           <div class="col-sm-10">
              <label for="iotiptype" class="col-sm-2 control-label">Static
-            <input type="radio" name="iotiptype" value="static" placeholder="Static IP" class="form-control" id="iotiptype"></label>
+            <input type="radio" name="iptype" value="static" {% if project.iptype == 'static' %} checked {% endif %} placeholder="Static IP" class="form-control" id="iptype1"></label>
               <label for="iotiptype" class="col-sm-2 control-label">Dyanmic
-            <input type="radio" name="iotiptype" value="dynamic" placeholder="Dynamic IP" class="form-control" id="iotiptype"></label>
+            <input type="radio" name="iptype" value="dynamic" {% if project.iptype == 'dynamic' %} checked {% endif %} placeholder="Dynamic IP" class="form-control" id="iptype2"></label>
           </div>
         </div>
         <div class="form-group">
@@ -124,7 +124,7 @@
         <div class="form-group">
           <label for="wifikey" class="col-sm-2 control-label">WIFI Passkey</label>
           <div class="col-sm-10">
-            <input type="text" name="wifikey" value="{{ project.wifikey }}" placeholder="Enter the wifi key" class="form-control" id="wifikey">
+            <input type="text" name="wifipasskey" value="{{ project.wifipasskey }}" placeholder="Enter the wifi key" class="form-control" id="wifipasskey">
           </div>
         </div>
 
@@ -140,15 +140,15 @@
           <label for="inputdata" class="col-sm-2 control-label">Data Config</label>
           <div class="col-sm-10">
              <label for="inputdata" class="col-sm-2 control-label">JSON
-            <input type="radio" name="inputdata" value="JSON" placeholder="JSON data" class="form-control" id="inputdata1"></label>
+            <input type="radio" name="datatype" {% if project.datatype == 'JSON' %} checked {% endif %} value="JSON" placeholder="JSON data" class="form-control" id="inputdata1"></label>
               <label for="inputdata" class="col-sm-2 control-label">PlainText
-            <input type="radio" name="inputdata" value="Plain Text" placeholder="Plain Text data" class="form-control" id="inputdata2"></label>
+            <input type="radio" name="datatype" {% if project.datatype == 'Plain Text' %} checked {% endif %}  value="Plain Text" placeholder="Plain Text data" class="form-control" id="inputdata2"></label>
           </div>
         </div>
         <div class="form-group">
           <label for="sampledata" class="col-sm-2 control-label">Sample Data (optional)</label>
           <div class="col-sm-10">
-            <textarea rows="5" name="sampledata" placeholder="Enter the sample data string" id="sampledata" cols="30" rows="10" class="form-control">{{ project.sampledata }}</textarea>
+            <textarea rows="5" name="datasample" placeholder="Enter the sample data string" id="datasample" cols="30" rows="10" class="form-control">{{ project.datasample }}</textarea>
           </div>
         </div>
 
