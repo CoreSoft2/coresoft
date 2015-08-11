@@ -8,14 +8,6 @@
 
   <span class="muted">{{ project.createdAt.toISOString()|date('M d, Y  h:m a') }}</span>
 
-  {% if (project.user) %}
-    &nbsp; - &nbsp;
-    <span>Author: </span>
-    <a href="{{ '/users/' + project.user._id }}">
-      {{ project.user.name || project.user.username }}
-    </a>
-  {% endif %}
-
   {% if (project.tags) %}
     &nbsp; - &nbsp;
     <span>Tags: </span>

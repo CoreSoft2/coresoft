@@ -69,14 +69,14 @@
         <div class="form-group">
           <label for="desc" class="col-sm-2 control-label">Description</label>
           <div class="col-sm-10">
-            <textarea rows="5" name="body" placeholder="Enter the project description" id="desc" cols="30" rows="10" class="form-control">{{ project.body }}</textarea>
+            <textarea rows="5" name="body" placeholder="Enter the project description (optional)" id="desc" cols="30" rows="10" class="form-control">{{ project.body }}</textarea>
           </div>
         </div>
 
         <div class="form-group">
           <label for="tags" class="col-sm-2 control-label">Tags</label>
           <div class="col-sm-10">
-            <input type="text" name="tags" value="{{ project.tags }}" placeholder="Enter the tags" class="form-control" id="tags">
+            <input type="text" name="tags" value="{{ project.tags }}" placeholder="Enter the tags (optional)" class="form-control" id="tags">
           </div>
         </div>
             <p>(*) Mandatory</p>
@@ -89,13 +89,20 @@
             <legend>IOT Device and Envrionemnt Information</legend>
      
         <div class="form-group">
-          <label for="file" class="col-sm-2 control-label">IOT Image</label>
+          <label for="title" class="col-sm-2 control-label">Device ID</label>
+          <div class="col-sm-10">
+            <input type="text" name="deviceid" value="{{ project.deviceid }}" placeholder="Enter the Device ID" class="form-control required" id="deviceid">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="file" class="col-sm-2 control-label">IOT CODE (advanced users only)</label>
           <div class="col-sm-10">
             <input type="file" name="image" class="form-control" id="file">
           </div>
         </div>
         <div class="form-group">
-          <label for="tags" class="col-sm-2 control-label">IP Config</label>
+          <label for="tags" class="col-sm-2 control-label">IP Config (advanced users only)</label>
           <div class="col-sm-10">
              <label for="iotiptype" class="col-sm-2 control-label">Static
             <input type="radio" name="iptype" value="static" {% if project.iptype == 'static' %} checked {% endif %} placeholder="Static IP" class="form-control" id="iptype1"></label>
@@ -167,13 +174,13 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="apisecret" class="col-sm-2 control-label">WIFI Passkey</label>
+          <label for="apisecret" class="col-sm-2 control-label">API Passkey</label>
           <div class="col-sm-10">
             <input type="text" readonly name="apisecret" value="{{ project.apisecret }}" placeholder="The api secret" class="form-control" id="apisecret">
           </div>
         </div>
         <div class="form-group">
-          <label for="vendorid" class="col-sm-2 control-label">Vendor ID</label>
+          <label for="vendorid" class="col-sm-2 control-label">Group Name (Used in Mobile APP)</label>
           <div class="col-sm-10">
             <input type="text" readonly name="vendorid" value="{{ project.vendorid }}" placeholder="The Vendor ID" class="form-control" id="vendorid">
           </div>

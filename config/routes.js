@@ -29,7 +29,12 @@ module.exports = function (app, passport) {
   app.get('/login', users.login);
   app.get('/signup', users.signup);
   app.get('/logout', users.logout);
+  app.get('/reset', users.reset);
+  app.post('/users/forgot', users.forgot);
+  app.get('/users/reset/:token', users.forgottoken);
+  app.post('/users/resetpass', users.resetpass);
   app.post('/users', users.create);
+    
   app.post('/users/session',
     passport.authenticate('local', {
       failureRedirect: '/login',

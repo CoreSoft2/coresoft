@@ -1,0 +1,36 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+  <h1>{{ title }}</h1>
+{% endblock %}
+
+{% block content %}
+  <form action="/users/resetpass" method="post" role="form" class="form-horizontal">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+   <input type="hidden" name="token" value="{{ token }}">
+
+    <p class="col-sm-offset-2 error">
+      {{ message }}
+    </p>
+
+    <div class="form-group">
+      <label for="email" class="col-sm-2 control-label">Password</label>
+      <div class="col-sm-10">
+        <input id="password" class="form-control" type="password" placeholder="Password" name="password">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email" class="col-sm-2 control-label">Confirm Password</label>
+      <div class="col-sm-10">
+        <input id="confirmpassword" class="form-control" type="password" placeholder="Password" name="confirmpassword">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-primary" type="submit">Reset</button>
+      </div>
+    </div>
+      
+  </form>
+{% endblock %}

@@ -29,6 +29,7 @@ var setTags = function (tags) {
  * Project Schema
  */
 var ProjectSchema = new Schema({
+  deviceid: {type : String, default : '', trim : true},
   title: {type : String, default : '', trim : true},
   body: {type : String, default : '', trim : true},
   user: {type : Schema.ObjectId, ref : 'User'},

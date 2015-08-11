@@ -31,7 +31,9 @@ var UserSchema = new Schema({
   twitter: {},
   github: {},
   google: {},
-  linkedin: {}
+  linkedin: {},
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 /**
