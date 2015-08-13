@@ -8,7 +8,7 @@
 
 var users = require('users');
 var projects = require('projects');
-var comments = require('comments');
+var iotlogs = require('iotlogs');
 var tags = require('tags');
 var auth = require('./middlewares/authorization');
 
@@ -17,7 +17,7 @@ var auth = require('./middlewares/authorization');
  */
 
 var projectAuth = [auth.requiresLogin, auth.project.hasAuthorization];
-var commentAuth = [auth.requiresLogin, auth.comment.hasAuthorization];
+var iotlogsAuth = [auth.requiresLogin, auth.iotlog.hasAuthorization];
 
 /**
  * Expose routes
@@ -105,11 +105,11 @@ module.exports = function (app, passport) {
   // home route
   app.get('/', projects.home);
 
-  // comment routes
-  app.param('commentId', comments.load);
-  app.post('/projects/:id/comments', auth.requiresLogin, comments.create);
-  app.get('/projects/:id/comments', auth.requiresLogin, comments.create);
-  app.delete('/projects/:id/comments/:commentId', commentAuth, comments.destroy);
+  // iotlogs routes
+  app.param('iotlogId', iotlogs.load);
+  app.post('/projects/:id/iotlogs', auth.requiresLogin, iotlogs.create);
+  app.get('/projects/:id/iotlogs', auth.requiresLogin, iotlogs.create);
+  app.delete('/projects/:id/iotlogs/:iotlogId', iotlogsAuth, iotlogs.destroy);
 
   // tag routes
   app.get('/tags/:tag', tags.index);

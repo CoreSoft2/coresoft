@@ -743,7 +743,7 @@ html {
 }
 
 form {
-    margin-top: 40px;
+    margin-top: 0px;
     margin-right: 15px;
     margin-left: 15px;
 }
@@ -789,7 +789,7 @@ textarea {
 }
 
 form {
-    margin-top: 60px;
+    margin-top: 0px;
 }
 
 .contact-discription {

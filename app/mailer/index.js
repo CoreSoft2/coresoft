@@ -36,7 +36,7 @@ module.exports = {
    * @api public
    */
 
-  comment: function (options, cb) {
+  iotlog: function (options, cb) {
     var project = options.project;
     var author = options.currentUser;
     var user = options.currentUser;
@@ -46,11 +46,11 @@ module.exports = {
       to: author.email,
       from: 'info@pivotsecurity.com',
       subject: user.name,
-      alert: user.name + ' added: "' + options.comment,
+      alert: user.name + ' added: "' + options.iotlog,
       locals: {
         to: author.name,
         from: user.name,
-        body: options.comment,
+        body: options.iotlog,
         project: project
       }
     };
@@ -62,7 +62,7 @@ module.exports = {
     })*/
 
     try {
-      notifier.send('comment', obj, cb);
+      notifier.send('iotlog', obj, cb);
     } catch (err) {
       console.log(err);
     }

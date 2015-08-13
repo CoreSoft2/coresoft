@@ -40,7 +40,8 @@ exports.index = function (req, res){
   var perPage = 30;
   var options = {
     perPage: perPage,
-    page: page
+    page: page,
+    user : req.user
   };
 
   Project.list(options, function (err, projects) {

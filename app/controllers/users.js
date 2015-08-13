@@ -201,8 +201,10 @@ exports.resetpass = function (req, res){
         user.password = user.encryptPassword(req.body.password);
         user.resetPasswordToken = undefined;
         user.resetPasswordExpires = undefined;
-          
+        
+        console.log('encryted password' + user.password);
         user.save(function(err) {
+        console.log('encryted password after save' + user.password);
           req.logIn(user, function(err) {
             done(err, user);
           });

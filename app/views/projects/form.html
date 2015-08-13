@@ -2,7 +2,6 @@
 
 {% block main %}
   <h1>{{ title }}</h1>
-  <hr>
 {% endblock %}
 
 {% block content %}
@@ -14,37 +13,35 @@
 
   <div class="row">
     <div class="col-md-8">
-        
       <form id="project-setup-form" method="post" action="{{ action }}" enctype="multipart/form-data" role="form">
-
           <div id="wizard" class="swMain">
   			<ul>
   				<li><a href="#step-1">
                 <span class="stepNumber">1</span>
                 <span class="stepDesc">
                    Step 1<br />
-                   <small>Step 1 description</small>
+                   <small>Project Details</small>
                 </span>
             </a></li>
   				<li><a href="#step-2">
                 <span class="stepNumber">2</span>
                 <span class="stepDesc">
                    Step 2<br />
-                   <small>Step 2 description</small>
+                   <small>IOT Configuration</small>
                 </span>
             </a></li>
   				<li><a href="#step-3">
                 <span class="stepNumber">3</span>
                 <span class="stepDesc">
                    Step 3<br />
-                   <small>Step 3 description</small>
+                   <small>Data Set-up</small>
                 </span>                   
              </a></li>
   				<li><a href="#step-4">
                 <span class="stepNumber">4</span>
                 <span class="stepDesc">
                    Step 4<br />
-                   <small>Step 4 description</small>
+                   <small>API Credentials</small>
                 </span>                   
             </a></li>
   			</ul>
@@ -96,13 +93,13 @@
         </div>
 
         <div class="form-group">
-          <label for="file" class="col-sm-2 control-label">IOT CODE (advanced users only)</label>
+          <label for="file" class="col-sm-2 control-label">IOT CODE </label>
           <div class="col-sm-10">
             <input type="file" name="image" class="form-control" id="file">
           </div>
         </div>
         <div class="form-group">
-          <label for="tags" class="col-sm-2 control-label">IP Config (advanced users only)</label>
+          <label for="tags" class="col-sm-2 control-label">IP Config</label>
           <div class="col-sm-10">
              <label for="iotiptype" class="col-sm-2 control-label">Static
             <input type="radio" name="iptype" value="static" {% if project.iptype == 'static' %} checked {% endif %} placeholder="Static IP" class="form-control" id="iptype1"></label>
@@ -166,7 +163,7 @@
   	    <div id="step-4">  
         <h3>Web, Mobile and API set-up</h3>
         <fieldset>
-            <legend>API...</legend>
+            <legend>API Credentials</legend>
         <div class="form-group">
           <label for="apikey" class="col-sm-2 control-label">API Key</label>
           <div class="col-sm-10">
@@ -180,9 +177,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="vendorid" class="col-sm-2 control-label">Group Name (Used in Mobile APP)</label>
+          <label for="vendorid" class="col-sm-2 control-label"></label>
           <div class="col-sm-10">
-            <input type="text" readonly name="vendorid" value="{{ project.vendorid }}" placeholder="The Vendor ID" class="form-control" id="vendorid">
+            <input type="hidden" readonly name="vendorid" value="{{ project.vendorid }}" placeholder="The Vendor ID" class="form-control" id="vendorid">
           </div>
         </div>
         </fieldset>

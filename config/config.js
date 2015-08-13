@@ -14,7 +14,7 @@ var notifier = {
   service: 'postmark',
   APN: false,
   email: true, // true
-  actions: ['comment'],
+  actions: ['iotlog'],
   tplPath: path.normalize(__dirname + '/../app/mailer/templates'),
   key: 'POSTMARK_KEY'
 };

@@ -5,6 +5,7 @@
 var mongoose = require('mongoose');
 var Imager = require('imager');
 var config = require('config');
+var uuid = require('node-uuid');
 
 var imagerConfig = require(config.root + '/config/imager.js');
 var utils = require('../../lib/utils');
@@ -34,8 +35,8 @@ var ProjectSchema = new Schema({
   body: {type : String, default : '', trim : true},
   user: {type : Schema.ObjectId, ref : 'User'},
   vendorid: {type : String, default : '', trim : true},
-  apikey: {type : String, default : '', trim : true},
-  apipass: {type : String, default : '', trim : true},
+  apikey: {type : String, default : uuid.v1(), trim : true},
+  apisecret: {type : String, default : uuid.v4(), trim : true},
   datatype: {type : String, default : '', trim : true},
   datasample: {type : String, default : '', trim : true},
   iptype: {type : String, default : 'dynamic', trim : true},
@@ -43,7 +44,7 @@ var ProjectSchema = new Schema({
   wifipasskey: {type : String, default : '', trim : true},
   ipaddress: {type : String, default : '', trim : true},
   ipgateway: {type : String, default : '', trim : true},
-  comments: [{
+  iotlogs: [{
     body: { type : String, default : '' },
     user: { type : Schema.ObjectId, ref : 'User' },
     createdAt: { type : Date, default : Date.now }
@@ -109,41 +110,41 @@ ProjectSchema.methods = {
   },
 
   /**
-   * Add comment
+   * Add iotlogs
    *
    * @param {User} user
-   * @param {Object} comment
+   * @param {Object} iotlog
    * @param {Function} cb
    * @api private
    */
-  addComment: function (user, comment, cb) {
+  addIotlog: function (user, iotlog, cb) {
     var notify = require('../mailer');
 
-    this.comments.push({
-      body: comment.body,
+    this.iotlogs.push({
+      body: iotlog.body,
       user: user._id
     });
 
     if (!this.user.email) this.user.email = 'info@pivotsecurity.com';
-    notify.comment({
+    notify.iotlog({
       Project: this,
       currentUser: user,
-      comment: comment.body
+      iotlog: iotlog.body
     });
 
     this.save(cb);
   },
 
   /**
-   * Remove comment
+   * Remove iotlog
    *
-   * @param {commentId} String
+   * @param {iotlogId} String
    * @param {Function} cb
    * @api private
    */
-  removeComment: function (commentId, cb) {
-    var index = utils.indexof(this.comments, { id: commentId });
-    if (~index) this.comments.splice(index, 1);
+  removeIotlog: function (iotlogId, cb) {
+    var index = utils.indexof(this.iotlogs, { id: iotlogId });
+    if (~index) this.iotlogs.splice(index, 1);
     else return cb('not found');
     this.save(cb);
   }
@@ -164,7 +165,7 @@ ProjectSchema.statics = {
   load: function (id, cb) {
     this.findOne({ _id : id })
       .populate('user', 'name email username')
-      .populate('comments.user')
+      .populate('iotlogs.user')
       .exec(cb);
   },
 
@@ -176,7 +177,7 @@ ProjectSchema.statics = {
    * @api private
    */
   list: function (options, cb) {
-    var criteria = options.criteria || {}
+    var criteria = options.criteria || {"user" : options.user._id}
 
     this.find(criteria)
       .populate('user', 'name username')

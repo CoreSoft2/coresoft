@@ -41,11 +41,11 @@ exports.project = {
  * Comment authorization routing middleware
  */
 
-exports.comment = {
+exports.iotlog = {
   hasAuthorization: function (req, res, next) {
-    // if the current user is comment owner or project owner
+    // if the current user is iotlog owner or project owner
     // give them authority to delete
-    if (req.user.id === req.comment.user.id || req.user.id === req.project.user.id) {
+    if (req.user.id === req.iotlog.user.id || req.user.id === req.project.user.id) {
       next()
     } else {
       req.flash('info', 'You are not authorized')

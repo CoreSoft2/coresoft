@@ -49,8 +49,8 @@
 
   <br>
   <h3>Comments</h3>
-  {% for comment in project.comments %}
-    {% include '../comments/comment.html' %}
+  {% for iotlog in project.iotlogs %}
+    {% include '../iotlog/iotlog.html' %}
   {% endfor %}
-  {% include '../comments/form.html' %}
+  {% include '../iotlog/form.html' %}
 {% endblock %}
