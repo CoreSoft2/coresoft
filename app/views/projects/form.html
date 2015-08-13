@@ -13,7 +13,7 @@
 
   <div class="row">
     <div class="col-md-8">
-      <form id="project-setup-form" method="post" action="{{ action }}" enctype="multipart/form-data" role="form">
+      <form id="project-setup-form" method="post" action="{{ action }}" enctype="multipart/form-data" role="form" >
           <div id="wizard" class="swMain">
   			<ul>
   				<li><a href="#step-1">
@@ -57,14 +57,14 @@
             <legend>Project Setup</legend>
      
           <div class="form-group">
-          <label for="title" class="col-sm-2 control-label">Title *</label>
+          <label for="title" class="col-sm-2 control-label">Title*</label>
           <div class="col-sm-10">
             <input type="text" name="title" value="{{ project.title }}" placeholder="Enter the title" class="form-control required" id="title">
           </div>
         </div>
 
         <div class="form-group">
-          <label for="desc" class="col-sm-2 control-label">Description *</label>
+          <label for="desc" class="col-sm-2 control-label">Description</label>
           <div class="col-sm-10">
             <textarea rows="5" name="body" placeholder="Enter the project description (optional)" id="desc" cols="30" rows="10" class="form-control">{{ project.body }}</textarea>
           </div>
@@ -86,14 +86,14 @@
             <legend>IOT Device and Envrionemnt Information</legend>
      
         <div class="form-group">
-          <label for="title" class="col-sm-2 control-label">Device ID *</label>
+          <label for="title" class="col-sm-2 control-label">Device ID*</label>
           <div class="col-sm-10">
             <input type="text" name="deviceid" value="{{ project.deviceid }}" placeholder="Enter the Device ID" class="form-control required" id="deviceid">
           </div>
         </div>
 
         <div class="form-group">
-          <label for="file" class="col-sm-2 control-label">IOT CODE </label>
+          <label for="file" class="col-sm-2 control-label">IOT CODE</label>
           <div class="col-sm-10">
             <input type="file" name="image" class="form-control" id="file">
           </div>
@@ -141,7 +141,7 @@
         <fieldset>
             <legend>Service Set-up</legend>
         <div class="form-group">
-          <label for="inputdata" class="col-sm-2 control-label">Data Config</label>
+          <label for="inputdata" class="col-sm-2 control-label">Data Config*</label>
           <div class="col-sm-10">
              <label for="inputdata" class="col-sm-2 control-label">JSON
             <input type="radio" name="datatype" {% if project.datatype == 'JSON' %} checked {% endif %} value="JSON" placeholder="JSON data" class="form-control" id="inputdata1"></label>
@@ -171,7 +171,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="apisecret" class="col-sm-2 control-label">API Passkey</label>
+          <label for="apisecret" class="col-sm-2 control-label">API Password</label>
           <div class="col-sm-10">
             <input type="text" readonly name="apisecret" value="{{ project.apisecret }}" placeholder="The api secret" class="form-control" id="apisecret">
           </div>
@@ -197,16 +197,89 @@
   </div>
 
 <script type="text/javascript">
+   $(document).ready(function(){
+    	// Smart Wizard     	
+  		$('#wizard').smartWizard({transitionEffect:'slideleft',onLeaveStep:leaveAStepCallback,onFinish:onFinishCallback,enableFinishButton:true});
 
-    $(document).ready(function(){
-    	// Smart Wizard 	
-  		$('#wizard').smartWizard();
+      function leaveAStepCallback(obj){
+        var step_num= obj.attr('rel');
+        return validateSteps(step_num);
+      }
       
       function onFinishCallback(){
-        $('#wizard').smartWizard('showMessage','Finish Clicked');
-      }     
+       if(validateAllSteps()){
+        $('form').submit();
+       }
+      }
 		});
-
+	   
+    function validateAllSteps(){
+       var isStepValid = true;
+       
+       if(validateStep1() == false){
+         isStepValid = false;
+         $('#wizard').smartWizard('setError',{stepnum:1,iserror:true});         
+       }else{
+         $('#wizard').smartWizard('setError',{stepnum:1,iserror:false});
+       }
+       
+       if(validateStep3() == false){
+         isStepValid = false;
+         $('#wizard').smartWizard('setError',{stepnum:3,iserror:true});         
+       }else{
+         $('#wizard').smartWizard('setError',{stepnum:3,iserror:false});
+       }
+       
+       if(!isStepValid){
+          $('#wizard').smartWizard('showMessage','Please correct the errors in the steps and continue');
+       }
+              
+       return isStepValid;
+    } 	
+		
+		
+    function validateSteps(step){
+		  var isStepValid = true;
+      // validate step 1
+      if(step == 1){
+        if(validateStep1() == false ){
+          isStepValid = false; 
+          $('#wizard').smartWizard('showMessage','Please correct the errors in step'+step+ ' and click next.');
+          $('#wizard').smartWizard('setError',{stepnum:step,iserror:true});         
+        }else{
+          $('#wizard').smartWizard('setError',{stepnum:step,iserror:false});
+        }
+      }
+        
+        return isStepValid;
+    }
+		
+	function validateStep1(){
+       var isValid = true; 
+       // Validate Username
+       var un = $('#title').val();
+       if(!un && un.length <= 0){
+         isValid = false;
+         //$('#msg_username').html('Please the Title').show();
+       }else{
+           var dd = $('#desc').val();
+           if ( !dd && dd.length <= 0){
+               $('#desc').html(un);
+           }
+       }
+       return isValid;
+    }
+    
+    function validateStep3(){
+      var isValid = true;    
+      return isValid;
+    }
+    
+    // Email Validation
+    function isValidEmailAddress(emailAddress) {
+      var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+      return pattern.test(emailAddress);
+    } 
 
 </script>
 
