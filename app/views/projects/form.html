@@ -57,14 +57,14 @@
             <legend>Project Setup</legend>
      
           <div class="form-group">
-          <label for="title" class="col-sm-2 control-label">Title</label>
+          <label for="title" class="col-sm-2 control-label">Title *</label>
           <div class="col-sm-10">
             <input type="text" name="title" value="{{ project.title }}" placeholder="Enter the title" class="form-control required" id="title">
           </div>
         </div>
 
         <div class="form-group">
-          <label for="desc" class="col-sm-2 control-label">Description</label>
+          <label for="desc" class="col-sm-2 control-label">Description *</label>
           <div class="col-sm-10">
             <textarea rows="5" name="body" placeholder="Enter the project description (optional)" id="desc" cols="30" rows="10" class="form-control">{{ project.body }}</textarea>
           </div>
@@ -86,7 +86,7 @@
             <legend>IOT Device and Envrionemnt Information</legend>
      
         <div class="form-group">
-          <label for="title" class="col-sm-2 control-label">Device ID</label>
+          <label for="title" class="col-sm-2 control-label">Device ID *</label>
           <div class="col-sm-10">
             <input type="text" name="deviceid" value="{{ project.deviceid }}" placeholder="Enter the Device ID" class="form-control required" id="deviceid">
           </div>

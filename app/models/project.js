@@ -37,7 +37,7 @@ var ProjectSchema = new Schema({
   vendorid: {type : String, default : '', trim : true},
   apikey: {type : String, default : uuid.v1(), trim : true},
   apisecret: {type : String, default : uuid.v4(), trim : true},
-  datatype: {type : String, default : '', trim : true},
+  datatype: {type : String, default : 'JSON', trim : true},
   datasample: {type : String, default : '', trim : true},
   iptype: {type : String, default : 'dynamic', trim : true},
   wifissid: {type : String, default : '', trim : true},
