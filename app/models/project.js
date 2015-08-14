@@ -67,14 +67,14 @@ ProjectSchema.path('body').required(true, 'Project body cannot be blank');
  * Pre-remove hook
  */
 ProjectSchema.pre('remove', function (next) {
-  var imager = new Imager(imagerConfig, 'S3');
+  var imager = new Imager(imagerConfig, 'Local');
   var files = this.image.files;
 
   if (files){
    // if there are files associated with the item, remove from the cloud too
    imager.remove(files, function (err) {
-     if (err) return next(err);
-   }, 'Project');
+        if (err) return next(err);
+    }, 'project');
   }
   next();
 });
@@ -86,7 +86,7 @@ ProjectSchema.methods = {
 
   /**
    * Save Project and upload image
-   *
+   * 
    * @param {Object} images
    * @param {Function} cb
    * @api private
@@ -94,7 +94,7 @@ ProjectSchema.methods = {
   uploadAndSave: function (images, cb) {
     if (!images || !images.length) return this.save(cb)
 
-    var imager = new Imager(imagerConfig, 'S3');
+    var imager = new Imager(imagerConfig, 'Local');
     var self = this;
 
     this.validate(function (err) {

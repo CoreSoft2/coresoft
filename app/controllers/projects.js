@@ -151,6 +151,6 @@ exports.destroy = function (req, res){
   var project = req.project;
   project.remove(function (err){
     req.flash('info', 'Deleted successfully');
-    res.redirect('/projects');
+    res.redirect('/projects/index');
   });
 };

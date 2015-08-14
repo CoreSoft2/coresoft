@@ -59,6 +59,7 @@
           <div class="form-group">
           <label for="title" class="col-sm-2 control-label">Title*</label>
           <div class="col-sm-10">
+              <span id="msg_username"></span>&nbsp;
             <input type="text" name="title" value="{{ project.title }}" placeholder="Enter the title" class="form-control required" id="title">
           </div>
         </div>
@@ -73,7 +74,7 @@
         <div class="form-group">
           <label for="tags" class="col-sm-2 control-label">Tags</label>
           <div class="col-sm-10">
-            <input type="text" name="tags" value="{{ project.tags }}" placeholder="Enter the tags (optional)" class="form-control" id="tags">
+            <input type="text" name="tags" value="{{ project.tags }}" placeholder="Enter the tags (optional) - Coma spaerated words" class="form-control" id="tags">
           </div>
         </div>
             <p>(*) Mandatory</p>
@@ -88,6 +89,7 @@
         <div class="form-group">
           <label for="title" class="col-sm-2 control-label">Device ID*</label>
           <div class="col-sm-10">
+              <span id="msg_deviceid"></span>&nbsp;
             <input type="text" name="deviceid" value="{{ project.deviceid }}" placeholder="Enter the Device ID" class="form-control required" id="deviceid">
           </div>
         </div>
@@ -203,6 +205,7 @@
 
       function leaveAStepCallback(obj){
         var step_num= obj.attr('rel');
+        $('.msgBox').hide();
         return validateSteps(step_num);
       }
       
@@ -223,11 +226,11 @@
          $('#wizard').smartWizard('setError',{stepnum:1,iserror:false});
        }
        
-       if(validateStep3() == false){
+       if(validateStep2() == false){
          isStepValid = false;
-         $('#wizard').smartWizard('setError',{stepnum:3,iserror:true});         
+         $('#wizard').smartWizard('setError',{stepnum:2,iserror:true});         
        }else{
-         $('#wizard').smartWizard('setError',{stepnum:3,iserror:false});
+         $('#wizard').smartWizard('setError',{stepnum:2,iserror:false});
        }
        
        if(!isStepValid){
@@ -239,19 +242,23 @@
 		
 		
     function validateSteps(step){
-		  var isStepValid = true;
-      // validate step 1
+      var isStepValid = true;
       if(step == 1){
         if(validateStep1() == false ){
           isStepValid = false; 
           $('#wizard').smartWizard('showMessage','Please correct the errors in step'+step+ ' and click next.');
           $('#wizard').smartWizard('setError',{stepnum:step,iserror:true});         
-        }else{
-          $('#wizard').smartWizard('setError',{stepnum:step,iserror:false});
+        }
+      }
+      if (step == 2){
+        if(validateStep2() == false ){
+          isStepValid = false; 
+          $('#wizard').smartWizard('showMessage','Please correct the errors in step'+step+ ' and click next.');
+          $('#wizard').smartWizard('setError',{stepnum:step,iserror:true});         
         }
       }
         
-        return isStepValid;
+      return isStepValid;
     }
 		
 	function validateStep1(){
@@ -260,12 +267,25 @@
        var un = $('#title').val();
        if(!un && un.length <= 0){
          isValid = false;
-         //$('#msg_username').html('Please the Title').show();
+         $('#msg_username').html('<font color="red">Please enter the title</font>').show();
        }else{
            var dd = $('#desc').val();
            if ( !dd && dd.length <= 0){
                $('#desc').html(un);
            }
+       }
+       if (isValid && !isValidAlfaNum(un)){
+         isValid = false;
+         $('#msg_username').html('<font color="red">Please enter the a valid title without special characters like $, £..</font>').show();
+       }
+       return isValid;
+    }
+    function validateStep2(){
+       var isValid = true;
+       var un = $('#deviceid').val();
+       if(!un && un.length <= 0){
+         isValid = false;
+         $('#msg_deviceid').html('<font color="red">Please enter the Device ID</font>').show();
        }
        return isValid;
     }
@@ -281,6 +301,10 @@
       return pattern.test(emailAddress);
     } 
 
+            function isValidAlfaNum(AlfaNum) {
+      var pattern = new RegExp(/^[a-zA-Z0-9_-]+$/i);
+      return pattern.test(AlfaNum);
+            }
 </script>
 
 {% endblock %}
