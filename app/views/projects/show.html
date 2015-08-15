@@ -7,27 +7,28 @@
 {% block content %}
   <div class="row">
     <div class="col-md-8">
-      <p>Project Title: {{ project.body }}</p>
-      <p>Project unique ID - {{ project.id }}</p>
+      <p><strong>Project Title: {{ project.body }}</strong></p>
+      <p><strong>Project unique ID - {{ project.id }}</strong></p>
       <div class="meta">
         {% if (project.user) %}
-          Author: &nbsp;
+          <strong>Author: &nbsp;
           <a href="{{ '/users/' + project.user._id }}">
             {{ project.user.name || project.user.username }}
-          </a>
+          </a></strong>
         {% endif %}
         {% if (project.tags) %}
-          <p>
+          <p><strong>
             Tags: &nbsp;
             {% for tag in project.tags.split(',') %}
               <i class="muted fa fa-tag"></i>&nbsp;
               <a href="{{ '/tags/' + tag }}" class="tag">{{ tag }}</a>
               &nbsp;&nbsp;
             {% endfor %}
+            </strong>
           </p>
         {% endif %}
         <p>
-            <span class="muted"> Created : {{ project.createdAt.toISOString()|date('M d, Y  h:m a') }}</span>
+            <span class="muted"> <strong>Created : {{ project.createdAt.toISOString()|date('M d, Y  h:m a') }}</strong></span>
         </p>
       </div>
     </div>

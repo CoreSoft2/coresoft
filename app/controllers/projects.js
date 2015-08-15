@@ -75,12 +75,9 @@ exports.new = function (req, res){
 
 exports.create = function (req, res) {
   var project = new Project(req.body);
-  var images = req.files.image
-    ? [req.files.image]
-    : undefined;
-
   project.user = req.user;
-  project.uploadAndSave(images, function (err) {
+
+  project.uploadAndSave(req, function (err) {
     if (!err) {
       req.flash('success', 'Successfully created project!');
       return res.redirect('/projects/'+project._id);
@@ -111,15 +108,11 @@ exports.edit = function (req, res) {
 
 exports.update = function (req, res){
   var project = req.project;
-  var images = req.files.image
-    ? [req.files.image]
-    : undefined;
-
   // make sure no one changes the user
   delete req.body.user;
   project = extend(project, req.body);
 
-  project.uploadAndSave(images, function (err) {
+  project.uploadAndSave(req, function (err) {
     if (!err) {
       return res.redirect('/projects/' + project._id);
     }

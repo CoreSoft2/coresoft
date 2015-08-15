@@ -10,6 +10,9 @@ var users = require('users');
 var projects = require('projects');
 var iotlogs = require('iotlogs');
 var tags = require('tags');
+var iotservice = require('iotservice');
+var apiservice = require('apiservice');
+
 var auth = require('./middlewares/authorization');
 
 /**
@@ -35,60 +38,19 @@ module.exports = function (app, passport) {
   app.post('/users/resetpass', users.resetpass);
   app.post('/users', users.create);
     
-  app.post('/users/session',
-    passport.authenticate('local', {
-      failureRedirect: '/login',
-      failureFlash: 'Invalid email or password.'
-    }), users.session);
+  app.post('/users/session', passport.authenticate('local', { failureRedirect: '/login',  failureFlash: 'Invalid email or password.' }), users.session);
   app.get('/users/:userId', users.show);
-  app.get('/auth/facebook',
-    passport.authenticate('facebook', {
-      scope: [ 'email', 'user_about_me'],
-      failureRedirect: '/login'
-    }), users.signin);
-  app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-      failureRedirect: '/login'
-    }), users.authCallback);
-  app.get('/auth/github',
-    passport.authenticate('github', {
-      failureRedirect: '/login'
-    }), users.signin);
-  app.get('/auth/github/callback',
-    passport.authenticate('github', {
-      failureRedirect: '/login'
-    }), users.authCallback);
-  app.get('/auth/twitter',
-    passport.authenticate('twitter', {
-      failureRedirect: '/login'
-    }), users.signin);
-  app.get('/auth/twitter/callback',
-    passport.authenticate('twitter', {
-      failureRedirect: '/login'
-    }), users.authCallback);
-  app.get('/auth/google',
-    passport.authenticate('google', {
-      failureRedirect: '/login',
-      scope: [
-        'https://www.googleapis.com/auth/userinfo.profile',
-        'https://www.googleapis.com/auth/userinfo.email'
-      ]
-    }), users.signin);
-  app.get('/auth/google/callback',
-    passport.authenticate('google', {
-      failureRedirect: '/login'
-    }), users.authCallback);
-  app.get('/auth/linkedin',
-    passport.authenticate('linkedin', {
-      failureRedirect: '/login',
-      scope: [
-        'r_emailaddress'
-      ]
-    }), users.signin);
-  app.get('/auth/linkedin/callback',
-    passport.authenticate('linkedin', {
-      failureRedirect: '/login'
-    }), users.authCallback);
+    
+  app.get('/auth/facebook',passport.authenticate('facebook', {scope: [ 'email', 'user_about_me'],failureRedirect: '/login'}), users.signin);
+  app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login'}), users.authCallback);
+  app.get('/auth/github',passport.authenticate('github', {failureRedirect: '/login'}), users.signin);
+  app.get('/auth/github/callback',passport.authenticate('github', {failureRedirect: '/login'}), users.authCallback);
+  app.get('/auth/twitter',passport.authenticate('twitter', {failureRedirect: '/login'}), users.signin);
+  app.get('/auth/twitter/callback',passport.authenticate('twitter', {failureRedirect: '/login' }), users.authCallback);
+  app.get('/auth/google', passport.authenticate('google', {ailureRedirect: '/login', scope:  ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email'] }), users.signin);
+  app.get('/auth/google/callback',passport.authenticate('google', {failureRedirect: '/login'}), users.authCallback);
+  app.get('/auth/linkedin',passport.authenticate('linkedin', {failureRedirect: '/login',scope: ['r_emailaddress']}), users.signin);
+  app.get('/auth/linkedin/callback',passport.authenticate('linkedin', { failureRedirect: '/login' }), users.authCallback);
 
   app.param('userId', users.load);
 
@@ -114,11 +76,13 @@ module.exports = function (app, passport) {
   // tag routes
   app.get('/tags/:tag', tags.index);
 
-
+  // Weservice routes
+  app.get('/iot/init', iotservice.initiot);
+  app.get('/iot/getiotimage', iotservice.getiotimage);
+    
   /**
    * Error handling
    */
-
   app.use(function (err, req, res, next) {
     // treat as 404
     if (err.message

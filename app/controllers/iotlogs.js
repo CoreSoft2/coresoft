@@ -27,7 +27,6 @@ exports.load = function (req, res, next, id) {
 exports.create = function (req, res) {
   var project = req.project;
   var user = req.user;
-  console.log(req.body);
   if (!req.body.body) return res.redirect('/projects/'+ project.id);
 
   project.addIotlog(user, req.body, function (err) {

@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose');
-var Imager = require('imager');
 var config = require('config');
 var uuid = require('node-uuid');
+var fs = require('fs');
 
 var imagerConfig = require(config.root + '/config/imager.js');
 var utils = require('../../lib/utils');
@@ -67,14 +67,11 @@ ProjectSchema.path('body').required(true, 'Project body cannot be blank');
  * Pre-remove hook
  */
 ProjectSchema.pre('remove', function (next) {
-  var imager = new Imager(imagerConfig, 'Local');
   var files = this.image.files;
 
   if (files){
-   // if there are files associated with the item, remove from the cloud too
-   imager.remove(files, function (err) {
-        if (err) return next(err);
-    }, 'project');
+    console.log(files);
+    fs.unlink('/tmp/'+files);
   }
   next();
 });
@@ -91,22 +88,17 @@ ProjectSchema.methods = {
    * @param {Function} cb
    * @api private
    */
-  uploadAndSave: function (images, cb) {
-    if (!images || !images.length) return this.save(cb)
-
-    var imager = new Imager(imagerConfig, 'Local');
-    var self = this;
-
-    this.validate(function (err) {
-      if (err) return cb(err);
-      imager.upload(images, function (err, cdnUri, files) {
-        if (err) return cb(err);
-        if (files.length) {
-          self.image = { cdnUri : cdnUri, files : files };
-        }
-        self.save(cb);
-      }, 'Project');
-    });
+  uploadAndSave: function (req, cb) {
+      
+    if (req.files && req.files.image){
+        fs.readFile(req.files.image.path, function (err, data) {
+            var newPath = "/tmp/" + req.files.image.name;
+                fs.writeFile(newPath, data, function (err) {
+            });
+        });
+        this.image.files = req.files.image.name;
+    }
+        this.save(cb);
   },
 
   /**
@@ -184,6 +176,19 @@ ProjectSchema.statics = {
       .sort({'createdAt': -1}) // sort by date
       .limit(options.perPage)
       .skip(options.perPage * options.page)
+      .exec(cb);
+  },
+
+   /**
+   * Get a Project based on IOT credentials
+   *
+   * @param {Object} options
+   * @param {Function} cb
+   * @api private
+   */
+  findProject: function (options, cb) {
+    var criteria = options.criteria || {"deviceid" : options.deviceid, "apikey" : options.apikey }
+    this.findOne(criteria)
       .exec(cb);
   }
 }
