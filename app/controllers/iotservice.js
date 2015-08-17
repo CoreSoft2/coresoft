@@ -6,7 +6,7 @@
 
 var mongoose = require('mongoose');
 var Project = mongoose.model('Project')
-var winston = require('winston');
+var Message = mongoose.model('Message')
 
 exports.initiot = function (req, res) {
   var devid = req.query.deviceid;
@@ -19,8 +19,8 @@ exports.initiot = function (req, res) {
     apikey: apikey,
     apipass : apipass
   };
+    
   Project.findProject(options, function(err, iotproject){
-      
       var data = '{"ipgateway":"'+iotproject.ipgateway
       +'", "ipaddress":"'+iotproject.ipaddress
       +'","wifipasskey":"'+iotproject.wifipasskey
@@ -29,30 +29,11 @@ exports.initiot = function (req, res) {
       +'","title":"'+iotproject.title
       +'","desctiption":"'+iotproject.body
       +'","deviceid":"'+iotproject.deviceid + '"}';
-      
       res.send(data);
     }) 
- 
 }
 
 exports.getiotimage = function (req, res){
-    // auth..
-    
-    /* send file
-    
- var file = __dirname + '/upload-folder/dramaticpenguin.MOV';
-
-  var filename = path.basename(file);
-  var mimetype = mime.lookup(file);
-
-  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-  res.setHeader('Content-type', mimetype);
-
-  var filestream = fs.createReadStream(file);
-  filestream.pipe(res);
-
-  // alterntive*/
-    
   var devid = req.query.deviceid;
   var apikey = req.query.apikey;
   var apisecret = req.query.apisecret;
@@ -69,6 +50,53 @@ exports.getiotimage = function (req, res){
         res.download(file); // Set disposition and send it.
       }else{
           res.send("EP01: Invaild credentials");
+      }
+  })
+}
+
+exports.addlog = function (req, res){
+  var devid = req.query.deviceid;
+  var apikey = req.query.apikey;
+  var apisecret = req.query.apisecret;
+  var log = req.query.log;
+    
+  // Authenticate
+  var options = {
+    deviceid: devid,
+    apikey: apikey,
+    apisecret : apisecret
+  };
+  Project.findProject(options, function(err, iotproject){
+      if (iotproject){
+            iotproject.addLog(log, function (err) {
+                if (err) res.send('ERR');
+                else res.send('OK');
+                });
+      }
+  })
+}
+
+exports.newmessage = function (req, res){
+  var devid = req.query.deviceid;
+  var apikey = req.query.apikey;
+  var apisecret = req.query.apisecret;
+  var subject = req.query.subject;
+  var message = req.query.message;
+    
+  // Authenticate
+  var options = {
+    deviceid: devid,
+    apikey: apikey,
+    apisecret : apisecret
+  };
+  Project.findProject(options, function(err, iotproject){
+      if (iotproject && iotproject.id){
+           
+          var messaeg = new Message({ 'proejctid': iotproject.id, 'subject': subject, 'message': message });
+            messaeg.save( function (err) {
+                if (err) res.send('ERR');
+                else res.send('OK');
+                });
       }
   })
 }

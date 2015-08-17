@@ -79,6 +79,8 @@ module.exports = function (app, passport) {
   // Weservice routes
   app.get('/iot/init', iotservice.initiot);
   app.get('/iot/getiotimage', iotservice.getiotimage);
+  app.get('/iot/addlog', iotservice.addlog);
+  app.get('/iot/message', iotservice.newmessage);
     
   /**
    * Error handling

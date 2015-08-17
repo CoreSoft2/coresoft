@@ -101,6 +101,17 @@ ProjectSchema.methods = {
         this.save(cb);
   },
 
+   /**
+   * Add iotlogs
+   */
+  addLog: function (iotlog, cb) {
+
+    this.iotlogs.push({
+        body: iotlog
+    });
+    this.save(cb);
+  },
+    
   /**
    * Add iotlogs
    *
