@@ -47,6 +47,7 @@ var ProjectSchema = new Schema({
   iotlogs: [{
     body: { type : String, default : '' },
     user: { type : Schema.ObjectId, ref : 'User' },
+    error: { type : Boolean, default : false },
     createdAt: { type : Date, default : Date.now }
   }],
   tags: {type: [], get: getTags, set: setTags},
@@ -70,8 +71,9 @@ ProjectSchema.pre('remove', function (next) {
   var files = this.image.files;
 
   if (files){
-    console.log(files);
-    fs.unlink('/tmp/'+files);
+      var path = require('path');
+      global.appRoot = path.resolve(__dirname);
+      fs.unlink(global.appRoot + "/../../data/" + this.user._id + '/' +files);
   }
   next();
 });
@@ -92,22 +94,31 @@ ProjectSchema.methods = {
       
     if (req.files && req.files.image){
         fs.readFile(req.files.image.path, function (err, data) {
-            var newPath = "/tmp/" + req.files.image.name;
-                fs.writeFile(newPath, data, function (err) {
+            var path = require('path');
+            global.appRoot = path.resolve(__dirname);
+            utils.ensureExists(global.appRoot + "/../../data/" + req.user.id, 0744, function(err) {
+                if (err) console.log(err);
+                else{ // we're all good
+                    var newPath = global.appRoot + "/../../data/" + req.user.id + '/' + req.files.image.name;
+                        fs.writeFile(newPath, data, function (err) {
+                    });
+                }
             });
+            
         });
         this.image.files = req.files.image.name;
     }
-        this.save(cb);
+    this.save(cb);
   },
 
    /**
    * Add iotlogs
    */
-  addLog: function (iotlog, cb) {
+  addLog: function (iotlog,error, cb) {
 
     this.iotlogs.push({
-        body: iotlog
+        body: iotlog,
+        error:error
     });
     this.save(cb);
   },
@@ -120,11 +131,12 @@ ProjectSchema.methods = {
    * @param {Function} cb
    * @api private
    */
-  addIotlog: function (user, iotlog, cb) {
+  addIotlog: function (user, iotlog, error, cb) {
     var notify = require('../mailer');
 
     this.iotlogs.push({
       body: iotlog.body,
+      error: error, 
       user: user._id
     });
 

@@ -29,7 +29,7 @@ exports.create = function (req, res) {
   var user = req.user;
   if (!req.body.body) return res.redirect('/projects/'+ project.id);
 
-  project.addIotlog(user, req.body, function (err) {
+  project.addIotlog(user, req.body, false, function (err) {
     if (err) return res.render('500');
     res.redirect('/projects/'+ project.id);
   });

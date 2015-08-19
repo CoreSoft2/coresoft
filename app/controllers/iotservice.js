@@ -21,7 +21,12 @@ exports.initiot = function (req, res) {
   };
     
   Project.findProject(options, function(err, iotproject){
-      var data = '{"ipgateway":"'+iotproject.ipgateway
+      
+      var data = 'EP01: Invaild credentials';
+      
+      if(iotproject){
+      
+      data = '{"ipgateway":"'+iotproject.ipgateway
       +'", "ipaddress":"'+iotproject.ipaddress
       +'","wifipasskey":"'+iotproject.wifipasskey
       +'","wifissid":"'+iotproject.wifissid
@@ -29,6 +34,7 @@ exports.initiot = function (req, res) {
       +'","title":"'+iotproject.title
       +'","desctiption":"'+iotproject.body
       +'","deviceid":"'+iotproject.deviceid + '"}';
+          }
       res.send(data);
     }) 
 }
@@ -46,7 +52,7 @@ exports.getiotimage = function (req, res){
   };
   Project.findProject(options, function(err, iotproject){
       if (iotproject && iotproject.image.files){
-        var file = '/tmp/' + iotproject.image.files;
+        var file = './data/' + iotproject.user.id + '/'+ iotproject.image.files;
         res.download(file); // Set disposition and send it.
       }else{
           res.send("EP01: Invaild credentials");
@@ -68,14 +74,39 @@ exports.addlog = function (req, res){
   };
   Project.findProject(options, function(err, iotproject){
       if (iotproject){
-            iotproject.addLog(log, function (err) {
-                if (err) res.send('ERR');
+            iotproject.addLog(log,false, function (err) {
+                if (err) res.send('EP01: Invaild credentials');
                 else res.send('OK');
                 });
+      }else{
+          res.send("PP01: Project not found");
       }
   })
 }
 
+exports.adderror = function (req, res){
+  var devid = req.query.deviceid;
+  var apikey = req.query.apikey;
+  var apisecret = req.query.apisecret;
+  var log = req.query.log;
+    
+  // Authenticate
+  var options = {
+    deviceid: devid,
+    apikey: apikey,
+    apisecret : apisecret
+  };
+  Project.findProject(options, function(err, iotproject){
+      if (iotproject){
+            iotproject.addLog(log, true, function (err) {
+                if (err) res.send('EP01: Invaild credentials');
+                else res.send('OK');
+                });
+      }else{
+          res.send("PP01: Project not found");
+      }
+  })
+}
 exports.newmessage = function (req, res){
   var devid = req.query.deviceid;
   var apikey = req.query.apikey;
@@ -94,9 +125,11 @@ exports.newmessage = function (req, res){
            
           var messaeg = new Message({ 'proejctid': iotproject.id, 'subject': subject, 'message': message });
             messaeg.save( function (err) {
-                if (err) res.send('ERR');
+                if (err) res.send('EP02: Generic Error');
                 else res.send('OK');
                 });
+      }else{
+          res.send('EP01: Invaild credentials');
       }
   })
 }

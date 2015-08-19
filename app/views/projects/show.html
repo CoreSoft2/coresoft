@@ -7,8 +7,26 @@
 {% block content %}
   <div class="row">
     <div class="col-md-8">
-      <p><strong>Project Title: {{ project.body }}</strong></p>
-      <p><strong>Project unique ID - {{ project.id }}</strong></p>
+      <div class="cd-container">
+        <table class="pretty-table">
+        <tr>
+            <td>Project Title</td><td>{{ project.body }}</td>
+        </tr>
+        <tr>
+            <td>Device ID</td><td>{{ project.deviceid }}</td>
+        </tr>
+        <tr>
+            <td>Project API Key</td><td>{{ project.apikey }}</td>
+        </tr>
+        <tr>
+            <td>Project API Secret</td><td>{{ project.apisecret }}</td>
+        </tr>
+        <tr>
+            <td>Mobile App Category</td>{{ project.vendorid }}<td></td>
+        </tr>
+        </table>
+      </div>
+        <p>&nbsp;</p>
       <div class="meta">
         {% if (project.user) %}
           <strong>Author: &nbsp;
