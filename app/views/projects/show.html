@@ -22,7 +22,7 @@
             <td>Project API Secret</td><td>{{ project.apisecret }}</td>
         </tr>
         <tr>
-            <td>Mobile App Category</td>{{ project.vendorid }}<td></td>
+            <td>Mobile App Display Name </td>{{ project.vendorid }}<td></td>
         </tr>
         </table>
       </div>
@@ -68,10 +68,11 @@
     <button class="btn btn-danger" type="submit">Delete</button>
   </form>
 
-  <br>
+  <br/>
   <h3>Log</h3>
   {% for iotlog in project.iotlogs %}
     {% include '../iotlog/iotlog.html' %}
   {% endfor %}
+<hr/>
   {% include '../iotlog/form.html' %}
 {% endblock %}

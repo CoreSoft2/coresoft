@@ -1,25 +1,26 @@
-
-{% if (iotlog && iotlog.user) %}
+{% if (iotlog) %}
+<hr/>
+{% if (iotlog.error) %}
+ <div style="background:#CCF">
+{% else %}
+ <div style="background:#efe">
+{% endif %}
   <div class="comment">
-    {% if (iotlog.user.name) %}
-      {% set name = iotlog.user.name %}
-    {% else %}
-      {% set name = iotlog.user.username %}
-    {% endif %}
 
     <p>
-      <a href="{{ '/users/' + iotlog.user._id }}">{{ name }}</a>
-      :&nbsp;
-      {{ iotlog.body }}
+        <span class="muted">{{ iotlog.createdAt.toISOString()|date('M d, Y  h:m a') }}</span>
+    </p>
+    <p>
+            {{ iotlog.body }}
     </p>
 
     <!-- <p class="muted"> -->
       <form role="form" method="post" action="{{ '/projects/' + project._id + '/iotlogs/' + iotlog._id }}" onsubmit="return confirm('Are you sure?')" class="form-inline">
         <input type="hidden" name="_csrf" value="{{ csrf_token }}">
-        <span class="muted">{{ iotlog.createdAt.toISOString()|date('M d, Y  h:m a') }}</span>
         <input type="hidden" name="_method" value="DELETE">
         <button class="btn btn-danger btn-link error" type="submit">delete</button>
       </form>
     <!-- </p> -->
   </div>
+</div>
 {% endif %}

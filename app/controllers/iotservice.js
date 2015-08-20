@@ -1,5 +1,3 @@
-
-
 /**
  * IOT Service Module dependencies.
  */
@@ -52,8 +50,9 @@ exports.getiotimage = function (req, res){
   };
   Project.findProject(options, function(err, iotproject){
       if (iotproject && iotproject.image.files){
-        var file = './data/' + iotproject.user.id + '/'+ iotproject.image.files;
-        res.download(file); // Set disposition and send it.
+          global.appRoot = path.resolve(__dirname);
+          var file = global.appRoot + "/../../data/" + this.user._id + '/'+ iotproject.image.files;
+          res.download(file); // Set disposition and send it.
       }else{
           res.send("EP01: Invaild credentials");
       }
