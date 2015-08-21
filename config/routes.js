@@ -77,11 +77,11 @@ module.exports = function (app, passport) {
   app.get('/tags/:tag', tags.index);
 
   // Weservice routes
-  app.get('/iot/init', iotservice.initiot);
-  app.get('/iot/getimage', iotservice.getiotimage);
-  app.get('/iot/addlog', iotservice.addlog);
-  app.get('/iot/adderror', iotservice.adderror);
-  app.get('/iot/message', iotservice.newmessage);
+  app.get('/iot/init', iotapi.hasAuthorization, iotservice.initiot);
+  app.get('/iot/getimage', iotapi.hasAuthorization, iotservice.getiotimage);
+  app.get('/iot/addlog', iotapi.hasAuthorization, iotservice.addlog);
+  app.get('/iot/adderror', iotapi.hasAuthorization, iotservice.adderror);
+  app.get('/iot/message', iotapi.hasAuthorization, iotservice.newmessage);
     
   /**
    * Error handling

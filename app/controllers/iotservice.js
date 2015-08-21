@@ -49,9 +49,9 @@ exports.getiotimage = function (req, res){
     apisecret : apisecret
   };
   Project.findProject(options, function(err, iotproject){
-      if (iotproject && iotproject.image.files){
+      if (iotproject && iotproject.image.files && iotproject.user){
           global.appRoot = path.resolve(__dirname);
-          var file = global.appRoot + "/../../data/" + this.user._id + '/'+ iotproject.image.files;
+          var file = global.appRoot + "/../../data/" + iotproject.user + '/'+ iotproject.image.files;
           res.download(file); // Set disposition and send it.
       }else{
           res.send("EP01: Invaild credentials");

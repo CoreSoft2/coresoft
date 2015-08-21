@@ -11,7 +11,7 @@ from select import select
 from logging.handlers import RotatingFileHandler
 
 log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(funcName)s(%(lineno)d) %(message)s')
-my_handler = RotatingFileHandler('/home/pi/logs/iot.log', mode='a', maxBytes=124, backupCount=2, encoding=None, delay=0)
+my_handler = RotatingFileHandler('/home/pi/pivot/logs/iot.log', mode='a', maxBytes=124, backupCount=2, encoding=None, delay=0)
 my_handler.setFormatter(log_formatter)
 my_handler.setLevel(logging.DEBUG)
 
@@ -21,10 +21,10 @@ app_log.setLevel(logging.DEBUG)
 app_log.addHandler(my_handler)
 
 # look for a /dev/input/by-id/usb...kbd or something similar
-DEVICE = "/dev/input/by-id/usb-13ba_Barcode_Reader-event-kbd"
+DEVICE = "/dev/input/event0"
 
 dev = InputDevice(DEVICE)
-url = 'https://www.intellifortsolutions.com/school/tagpost.php'
+url = 'http://fast.pivotsecurity.com/iot/message?deviceid=000000008f6f34db&apikey=a66e4c70-46a6-11e5-b9e2-0375f0e0ccdb&apisecret=bbbb&log=111345&subject=keyboard&'
 
 # The worker thread gets jobs off the queue.
 def worker():
@@ -40,7 +40,7 @@ def worker():
         else:
             try:
                 #app_log.debug('Connection at ' + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                values = { 'tags' : arg, 'school':'test', 'auth': 'test' }
+                values = { 'message' : arg }
                 data = urllib.urlencode(values)
                 req = urllib2.Request(url, data)
                 response = urllib2.urlopen(req)
@@ -51,7 +51,7 @@ def worker():
             except:
                 app_log.debug('Connection Error at ' + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                 q.put(arg)
-                time.sleep(60)
+                time.sleep(30)
 
 def kb2handler():
     tagno = ''
@@ -73,7 +73,7 @@ def kb2handler():
 # Create queue
 q = Queue.Queue()
 
-# Start http 5 workers
+# Start http worker
 t = threading.Thread(target=worker, name='http worker ')
 t.start()
 
@@ -82,11 +82,6 @@ t2 = threading.Thread(target=kb2handler, name='kb worker')
 t2.start()
 
 # Give threads time to run
-values = { 'school' : 'test', 'auth' : 'test' , 'host' : socket.gethostbyname(socket.gethostname())}
-data = urllib.urlencode(values)
-req = urllib2.Request('https://www.intellifortsolutions.com/school/tagreaderinfo.php', data)
-response = urllib2.urlopen(req)
-
 app_log.debug( 'Main thread sleeping :: ' )
 
 time.sleep(500)
