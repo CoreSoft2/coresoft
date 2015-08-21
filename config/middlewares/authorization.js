@@ -54,9 +54,8 @@ exports.iotlog = {
   }
 }
 
-
 exports.iotapi = {
-  hasAuthorization: function (req, res, next) {
+  apiAuthorization: function (req, res, next) {
    if ( null !== req.path.match(/^\/api/) || null !== req.path.match(/^\/iot/) ) {
     next();
    } 

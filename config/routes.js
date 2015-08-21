@@ -21,6 +21,7 @@ var auth = require('./middlewares/authorization');
 
 var projectAuth = [auth.requiresLogin, auth.project.hasAuthorization];
 var iotlogsAuth = [auth.requiresLogin, auth.iotlog.hasAuthorization];
+var iotApiAuth = [auth.requiresLogin, auth.iotapi.apiAuthorization];
 
 /**
  * Expose routes
@@ -77,11 +78,11 @@ module.exports = function (app, passport) {
   app.get('/tags/:tag', tags.index);
 
   // Weservice routes
-  app.get('/iot/init', iotapi.hasAuthorization, iotservice.initiot);
-  app.get('/iot/getimage', iotapi.hasAuthorization, iotservice.getiotimage);
-  app.get('/iot/addlog', iotapi.hasAuthorization, iotservice.addlog);
-  app.get('/iot/adderror', iotapi.hasAuthorization, iotservice.adderror);
-  app.get('/iot/message', iotapi.hasAuthorization, iotservice.newmessage);
+  app.get('/iot/init', iotApiAuth, iotservice.initiot);
+  app.get('/iot/getimage', iotApiAuth, iotservice.getiotimage);
+  app.get('/iot/addlog', iotApiAuth, iotservice.addlog);
+  app.get('/iot/adderror', iotApiAuth, iotservice.adderror);
+  app.get('/iot/message', iotApiAuth, iotservice.newmessage);
     
   /**
    * Error handling
