@@ -41,23 +41,14 @@ exports.project = {
  * Comment authorization routing middleware
  */
 
-exports.iotlog = {
-  hasAuthorization: function (req, res, next) {
+exports.requiresApiAuth = function (req, res, next) {
     // if the current user is iotlog owner or project owner
     // give them authority to delete
-    if (req.user.id === req.iotlog.user.id || req.user.id === req.project.user.id) {
+      
+    if (req.query.deviceid !== '' && req.query.apikey !== '') {
       next()
     } else {
       req.flash('info', 'You are not authorized')
       res.redirect('/projects/' + req.project.id)
     }
-  }
-}
-
-exports.iotapi = {
-  apiAuthorization: function (req, res, next) {
-   if ( null !== req.path.match(/^\/api/) || null !== req.path.match(/^\/iot/) ) {
-    next();
-   } 
-  }
 }

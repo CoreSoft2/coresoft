@@ -5,6 +5,7 @@
 var mongoose = require('mongoose');
 var Project = mongoose.model('Project')
 var Message = mongoose.model('Message')
+var url = require('url')
 
 exports.initiot = function (req, res) {
   var devid = req.query.deviceid;
@@ -107,12 +108,15 @@ exports.adderror = function (req, res){
   })
 }
 exports.newmessage = function (req, res){
+    
+//var parsedUrl = url.parse(req.url, true)
+
   var devid = req.query.deviceid;
   var apikey = req.query.apikey;
   var apisecret = req.query.apisecret;
   var subject = req.query.subject;
   var message = req.query.message;
-    
+
   // Authenticate
   var options = {
     deviceid: devid,

@@ -20,8 +20,6 @@ var auth = require('./middlewares/authorization');
  */
 
 var projectAuth = [auth.requiresLogin, auth.project.hasAuthorization];
-var iotlogsAuth = [auth.requiresLogin, auth.iotlog.hasAuthorization];
-var iotApiAuth = [auth.requiresLogin, auth.iotapi.apiAuthorization];
 
 /**
  * Expose routes
@@ -72,17 +70,17 @@ module.exports = function (app, passport) {
   app.param('iotlogId', iotlogs.load);
   app.post('/projects/:id/iotlogs', auth.requiresLogin, iotlogs.create);
   app.get('/projects/:id/iotlogs', auth.requiresLogin, iotlogs.create);
-  app.delete('/projects/:id/iotlogs/:iotlogId', iotlogsAuth, iotlogs.destroy);
+  app.delete('/projects/:id/iotlogs/:iotlogId', auth.requiresLogin, iotlogs.destroy);
 
   // tag routes
   app.get('/tags/:tag', tags.index);
 
   // Weservice routes
-  app.get('/iot/init', iotApiAuth, iotservice.initiot);
-  app.get('/iot/getimage', iotApiAuth, iotservice.getiotimage);
-  app.get('/iot/addlog', iotApiAuth, iotservice.addlog);
-  app.get('/iot/adderror', iotApiAuth, iotservice.adderror);
-  app.get('/iot/message', iotApiAuth, iotservice.newmessage);
+  app.get('/iot/init', auth.requiresApiAuth, iotservice.initiot);
+  app.get('/iot/getimage', auth.requiresApiAuth, iotservice.getiotimage);
+  app.get('/iot/addlog', auth.requiresApiAuth, iotservice.addlog);
+  app.get('/iot/adderror', auth.requiresApiAuth, iotservice.adderror);
+  app.get('/iot/message', auth.requiresApiAuth, iotservice.newmessage);
     
   /**
    * Error handling

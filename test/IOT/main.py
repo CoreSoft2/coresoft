@@ -24,7 +24,7 @@ app_log.addHandler(my_handler)
 DEVICE = "/dev/input/event0"
 
 dev = InputDevice(DEVICE)
-url = 'http://fast.pivotsecurity.com/iot/message?deviceid=000000008f6f34db&apikey=a66e4c70-46a6-11e5-b9e2-0375f0e0ccdb&apisecret=bbbb&log=111345&subject=keyboard&'
+url = 'http://fast.pivotsecurity.com/iot/message?deviceid=000000008f6f34db&apikey=a66e4c70-46a6-11e5-b9e2-0375f0e0ccdb&apisecret=bbbb&log=111345&subject=keyboard&message='
 
 # The worker thread gets jobs off the queue.
 def worker():
@@ -40,10 +40,7 @@ def worker():
         else:
             try:
                 #app_log.debug('Connection at ' + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                values = { 'message' : arg }
-                data = urllib.urlencode(values)
-                req = urllib2.Request(url, data)
-                response = urllib2.urlopen(req)
+                req = urllib2.Request(url+arg)
             except requests.exceptions.Timeout:
                 app_log.debug('Connection Error at ' + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                 q.put(arg)

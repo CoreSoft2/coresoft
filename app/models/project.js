@@ -211,6 +211,8 @@ ProjectSchema.statics = {
    */
   findProject: function (options, cb) {
     var criteria = options.criteria || {"deviceid" : options.deviceid, "apikey" : options.apikey }
+    console.info(criteria)
+    
     this.findOne(criteria)
       .exec(cb);
   }
