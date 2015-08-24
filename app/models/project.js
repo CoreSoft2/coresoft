@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var config = require('config');
 var uuid = require('node-uuid');
 var fs = require('fs');
+var path = require('path');
 
 var imagerConfig = require(config.root + '/config/imager.js');
 var utils = require('../../lib/utils');
