@@ -79,8 +79,10 @@ exports.create = function (req, res) {
 
   project.uploadAndSave(req, function (err) {
     if (!err) {
-      req.flash('success', 'Successfully created project!');
-      return res.redirect('/projects/'+project._id);
+        req.flash('success', 'Successfully created project!');
+        //create new account for the IF sub-system for display
+        utils.setupVendor({'vendor' : 'test'},req, function(err){console.log(err)});
+        return res.redirect('/projects/'+project._id);
     }
     console.log(err);
     res.render('projects/new', {
