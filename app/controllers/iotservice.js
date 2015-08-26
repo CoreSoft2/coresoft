@@ -6,6 +6,8 @@ var mongoose = require('mongoose');
 var Project = mongoose.model('Project')
 var Message = mongoose.model('Message')
 var url = require('url')
+var utils = require('../../lib/utils')
+var extend = require('util')._extend
 
 exports.initiot = function (req, res) {
   var devid = req.query.deviceid;
@@ -124,13 +126,16 @@ exports.newmessage = function (req, res){
     apisecret : apisecret
   };
   Project.findProject(options, function(err, iotproject){
-      if (iotproject && iotproject.id){
+      if (iotproject && iotproject.id && iotproject.user.email){
            
           var messaeg = new Message({ 'proejctid': iotproject.id, 'subject': subject, 'message': message });
             messaeg.addNew(iotproject.id,subject, message, function(err){console.log(err)});
             messaeg.save( function (err) {
                 if (err) res.send('EP02: Generic Error');
-                else res.send('OK');
+                else{ 
+                    utils.sendPushMessage(iotproject.user.email, subject, message);   
+                    res.send('OK');
+                }
                 });
       }else{
           res.send('EP01: Invaild credentials');
