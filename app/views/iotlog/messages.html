@@ -1,0 +1,24 @@
+{% if (messages) %}
+<hr/>
+ <div style="background:#CCF">
+  <div class="comment">
+
+    <p>
+        <span class="muted">{{ message.createdAt.toISOString()|date('M d, Y  h:m a') }}</span>
+    </p>
+    <p>
+            {{ message.subject }}
+            <br/>
+            {{ message.message }}
+    </p>
+
+    <!-- <p class="muted"> -->
+      <form role="form" method="post" action="{{ '/projects/' + project._id + '/messages/' + message._id }}" onsubmit="return confirm('Are you sure?')" class="form-inline">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="_method" value="DELETE">
+        <button class="btn btn-danger btn-link error" type="submit">delete</button>
+      </form>
+    <!-- </p> -->
+  </div>
+</div>
+{% endif %}

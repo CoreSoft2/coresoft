@@ -80,7 +80,10 @@ module.exports = function (app, passport) {
   app.get('/iot/getimage', auth.requiresApiAuth, iotservice.getiotimage);
   app.get('/iot/addlog', auth.requiresApiAuth, iotservice.addlog);
   app.get('/iot/adderror', auth.requiresApiAuth, iotservice.adderror);
+ 
+  // Message
   app.get('/iot/message', auth.requiresApiAuth, iotservice.newmessage);
+  app.delete('/projects/:id/messages/:messageId', auth.requiresLogin, iotlogs.deleteMessage);
     
   /**
    * Error handling

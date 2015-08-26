@@ -39,8 +39,10 @@ def worker():
             app_log.debug('Exception in processing tag. sleeping for 10 sec... beofore retry')
         else:
             try:
-                #app_log.debug('Connection at ' + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                req = urllib2.Request(url+arg)
+                data = urllib.urlencode({'deviceid':'000000008f6f34db', 'apikey':'a66e4c70-46a6-11e5-b9e2-0375f0e0ccdb','apisecret':'bbbb','subject':'keyboard','message': arg})
+                fullurl =  'http://fast.pivotsecurity.com/iot/message?' + data
+                response = urllib2.urlopen(fullurl)
+                
             except requests.exceptions.Timeout:
                 app_log.debug('Connection Error at ' + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                 q.put(arg)

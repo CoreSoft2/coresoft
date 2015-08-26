@@ -69,10 +69,22 @@
   </form>
 
   <br/>
-  <h3>Log</h3>
+  <h3>Logs - <a href="#" onclick="$('#logstable').toggle();return false;">Show/Hide</a></h3>
+<div id="logstable" style="display:none;">
   {% for iotlog in project.iotlogs %}
     {% include '../iotlog/iotlog.html' %}
   {% endfor %}
+</div>
 <hr/>
-  {% include '../iotlog/form.html' %}
+ <!-- {% include '../iotlog/form.html' %} -->
+<hr/>
+  <h3>Messages - <a href="#" onclick="$('#messagetable').toggle();return false;">Show/Hide</a></h3>
+<div id="messagetable" style="display:none;">
+  {% for message in messages %}
+    {% include '../iotlog/messages.html' %}
+  {% endfor %}
+</div>
+<hr/>
+ <!-- {% include '../iotlog/form.html' %} -->
+
 {% endblock %}

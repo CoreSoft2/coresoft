@@ -127,6 +127,7 @@ exports.newmessage = function (req, res){
       if (iotproject && iotproject.id){
            
           var messaeg = new Message({ 'proejctid': iotproject.id, 'subject': subject, 'message': message });
+            messaeg.addNew(iotproject.id,subject, message, function(err){console.log(err)});
             messaeg.save( function (err) {
                 if (err) res.send('EP02: Generic Error');
                 else res.send('OK');

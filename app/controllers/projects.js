@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose')
 var Project = mongoose.model('Project')
+var Message = mongoose.model('Message')
 var utils = require('../../lib/utils')
 var extend = require('util')._extend
 
@@ -84,7 +85,6 @@ exports.create = function (req, res) {
         utils.setupVendor({'vendor' : 'test'},req, function(err){console.log(err)});
         return res.redirect('/projects/'+project._id);
     }
-    console.log(err);
     res.render('projects/new', {
       title: 'New Project',
       project: project,
@@ -132,10 +132,21 @@ exports.update = function (req, res){
  */
 
 exports.show = function (req, res){
-  res.render('projects/show', {
-    title: req.project.title,
-    project: req.project
-  });
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
+  var perPage = 30;
+  var options = {
+    perPage: perPage,
+    page: page,
+    projectid : req.project.id
+  };
+
+    messages: Message.list(options, function(err, messages){
+        res.render('projects/show', {
+        title: req.project.title,
+        messages: messages,
+        project: req.project
+        });
+    });
 };
 
 /**
