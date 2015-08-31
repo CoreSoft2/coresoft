@@ -8,6 +8,7 @@ var Message = mongoose.model('Message')
 var url = require('url')
 var utils = require('../../lib/utils')
 var extend = require('util')._extend
+var path = require('path')
 
 exports.initiot = function (req, res) {
   var devid = req.query.deviceid;
