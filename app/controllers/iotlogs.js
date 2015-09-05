@@ -46,12 +46,43 @@ exports.destroy = function (req, res) {
     if (err) {
       req.flash('error', 'Oops! The IOT log was not found');
     } else {
-      req.flash('info', 'Removed IOT LOG');
+      req.flash('info', 'Removed IOT log');
     }
     res.redirect('/projects/' + project.id);
   });
 };
 
+/**
+ * Delete iotlog
+ */
+
+exports.destroyAllLogs = function (req, res) {
+  var project = req.project;
+  project.removeAllIotlogs(req.param('iotlogId'), function (err) {
+    if (err) {
+      req.flash('error', 'Oops! The IOT log was not found');
+    } else {
+      req.flash('info', 'Removed all iot logs');
+    }
+    res.redirect('/projects/' + project.id);
+  });
+};
+
+
+/**
+ * Delete iotlog
+ */
+exports.destroyAllMessages = function (req, res) {
+  var project = req.project;
+  project.removeAllIotMessages(project.id, function (err) {
+    if (err) {
+      req.flash('error', 'Oops! The messages couldnot be removed');
+    } else {
+      req.flash('info', 'Removed all messages');
+    }
+    res.redirect('/projects/' + project.id);
+  });
+};
 /**
  * Delete Message
  */

@@ -49,7 +49,7 @@ MessageSchema.statics = {
    * @api private
    */
   list: function (options, cb) {
-    var criteria = options.criteria || {"projectid" : options.projectid}
+    var criteria = options.criteria || {"projectid" : options.projectid}      
     this.find(criteria)
       .sort({'createdAt': -1}) // sort by date
       .limit(options.perPage)

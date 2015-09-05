@@ -7,6 +7,7 @@ var config = require('config');
 var uuid = require('node-uuid');
 var fs = require('fs');
 var path = require('path');
+var Message = mongoose.model('Message')
 
 var imagerConfig = require(config.root + '/config/imager.js');
 var utils = require('../../lib/utils');
@@ -163,6 +164,27 @@ ProjectSchema.methods = {
     if (~index) this.iotlogs.splice(index, 1);
     else return cb('not found');
     this.save(cb);
+  },
+  /**
+   * Remove iotlog
+   *
+   * @param {iotlogId} String
+   * @param {Function} cb
+   * @api private
+   */
+  removeAllIotlogs: function (iotlogId, cb) {
+    this.iotlogs = [];
+    this.save(cb);
+  },
+  /**
+   * Remove iotlog
+   *
+   * @param {iotlogId} String
+   * @param {Function} cb
+   * @api private
+   */
+  removeAllIotMessages: function (id, cb) {
+      Message.find({ projectid:id }).remove( cb );
   }
 }
 

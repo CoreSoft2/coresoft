@@ -42,10 +42,16 @@ exports.initiot = function (req, res) {
 }
 
 exports.getiotimage = function (req, res){
+      
   var devid = req.query.deviceid;
   var apikey = req.query.apikey;
   var apisecret = req.query.apisecret;
     
+    if(devid && apikey && apisecret){
+        //ok
+    }else{
+        res.send("EP01: Invaild credentials");
+    }
   // Authenticate
   var options = {
     deviceid: devid,

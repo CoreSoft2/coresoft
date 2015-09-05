@@ -71,6 +71,8 @@ module.exports = function (app, passport) {
   app.post('/projects/:id/iotlogs', auth.requiresLogin, iotlogs.create);
   app.get('/projects/:id/iotlogs', auth.requiresLogin, iotlogs.create);
   app.delete('/projects/:id/iotlogs/:iotlogId', auth.requiresLogin, iotlogs.destroy);
+  app.delete('/projects/:id/clearlogs', auth.requiresLogin, iotlogs.destroyAllLogs);
+  app.delete('/projects/:id/clearmessages', auth.requiresLogin, iotlogs.destroyAllMessages);
 
   // tag routes
   app.get('/tags/:tag', tags.index);

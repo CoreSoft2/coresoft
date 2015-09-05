@@ -30,6 +30,18 @@ html {
 #top {
     margin-top: -50px;
 }
+.btn-rexta{
+    float: right;
+    margin: 40px;
+    background-color: #98d361;
+    border: 4px solid #b1e67f;
+}
+.btn-lexta{
+    float: left;
+    margin: 40px;
+    background-color: #98d361;
+    border: 4px solid #b1e67f;
+}
 
 .navbar-default {
     background-color: #98d361;

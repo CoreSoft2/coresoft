@@ -69,22 +69,69 @@
   </form>
 
   <br/>
-  <h3>Logs - <a href="#" onclick="$('#logstable').toggle();return false;">Show/Hide</a></h3>
+  <h3>Logs - <a href="#" onclick="$('#logstable').toggle();return false;">Show/Hide</a>
+  <form action="{{ '/projects/' + project.id + '/clearlogs' }}" method="post" onsubmit="return confirm('Are you sure?')">
+    <br>
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <button class="btn btn-danger" type="submit">Clear All</button>
+  </form>
+</h3>
 <div id="logstable" style="display:none;">
   {% for iotlog in project.iotlogs %}
     {% include '../iotlog/iotlog.html' %}
+    {% set len = len + 1 %} 
   {% endfor %}
+  {% if (page > 0) %}
+    <form action="{{ '/projects/' + project.id }}" method="get">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">    
+        <input type="hidden" name="lpage" value="{{lpage}}">
+        <input type="hidden" name="lprev" value="true">
+        <button class="btn btn-lexta" type="submit">Previous</button>
+    </form>
+    {% endif %}
+    {% if (len >= 30) %}
+    <form action="{{ '/projects/' + project.id }}" method="get">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">    
+        <input type="hidden" name="lpage" value="{{lpage}}">
+        <input type="hidden" name="next" value="true">
+        <button class="btn btn-rexta" type="submit">Next</button>
+    </form>
+    {% endif %}
 </div>
 <hr/>
  <!-- {% include '../iotlog/form.html' %} -->
 <hr/>
   <h3>Messages - <a href="#" onclick="$('#messagetable').toggle();return false;">Show/Hide</a></h3>
+  <form action="{{ '/projects/' + project.id + '/clearmessages' }}" method="post" onsubmit="return confirm('Are you sure?')">
+    <br>
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <button class="btn btn-danger" type="submit">Clear All</button>
+  </form>
 <div id="messagetable" style="display:none;">
+  {% set len = 0 %} 
   {% for message in messages %}
     {% include '../iotlog/messages.html' %}
+    {% set len = len + 1 %} 
   {% endfor %}
+  {% if (page > 0) %}
+    <form action="{{ '/projects/' + project.id }}" method="get">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">    
+        <input type="hidden" name="page" value="{{page}}">
+        <input type="hidden" name="prev" value="true">
+        <button class="btn btn-lexta" type="submit">Previous</button>
+    </form>
+    {% endif %}
+    {% if (len >= 30) %}
+    <form action="{{ '/projects/' + project.id }}" method="get">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">    
+        <input type="hidden" name="page" value="{{page}}">
+        <input type="hidden" name="next" value="true">
+        <button class="btn btn-rexta" type="submit">Next</button>
+    </form>
+    {% endif %}
 </div>
-<hr/>
  <!-- {% include '../iotlog/form.html' %} -->
 
 {% endblock %}
