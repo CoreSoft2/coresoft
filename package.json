@@ -51,7 +51,7 @@
     "winston": "0.8.0",
     "Nodemailer": "0.7.1",
     "bcrypt-nodejs": "0.0.3",
-    "node-uuid": "1.4.3"
+    "node-uuid": "1.4.4"
   },
   "devDependencies": {
     "supertest": "0.13.0",
